@@ -169,7 +169,7 @@ function drawHospital() {
         skin: "#bd7958",
         shirt: "#f59a81"
     });
-    drawDoctor(565, 230);
+    drawDoctor(565);
     drawMedicalCross(680, 93);
 
     noStroke();
@@ -190,7 +190,7 @@ function drawAntibioticFailure() {
         shirt: "#f59a81",
         sick: true
     });
-    drawDoctor(570, 245);
+    drawDoctor(570);
     drawMedicineBottle(490, 112);
     drawMedicineBottle(560, 112);
     drawBacteria(475, 185);
@@ -212,7 +212,7 @@ function drawDoctorWarning() {
         skin: "#bd7958",
         shirt: "#f59a81"
     });
-    drawDoctor(505, 258);
+    drawDoctor(505);
     drawSpeechBubble(641, 121, "This is serious.\nWe need another plan.");
     drawMedicalCross(122, 91);
 
@@ -278,12 +278,10 @@ function drawStickFigure(x, y, options = {}) {
     const skin = options.skin || "#bd7958";
     const shirt = options.shirt || "#f59a81";
 
-    const bob = options.sick ? sin(frameCount * 0.08) * 1.5 : 0;
-
     const headX = x + (options.lying ? -44 : 0);
-    const headY = y - (options.lying ? 26 : 70) + bob;
+    const headY = y - (options.lying ? 26 : 100);
     const bodyX = x + (options.lying ? -12 : 0);
-    const bodyY = y - (options.lying ? 18 : 38);
+    const bodyY = y - (options.lying ? 18 : 63);
 
     // Head
     stroke("#29364a");
@@ -355,32 +353,36 @@ function drawStickFigure(x, y, options = {}) {
         strokeCap(ROUND);
 
         // Straight, separated legs
+        const leftHipX = bodyX - 7 * scale;
+        const rightHipX = bodyX + 7 * scale;
+        const leftFootX = options.straightLegs ? leftHipX : bodyX - 13 * scale;
+        const rightFootX = options.straightLegs ? rightHipX : bodyX + 13 * scale;
         line(
-            bodyX - 7 * scale,
+            leftHipX,
             bodyY + 40 * scale,
-            bodyX - 13 * scale,
+            leftFootX,
             y + 3 * scale
         );
 
         line(
-            bodyX + 7 * scale,
+            rightHipX,
             bodyY + 40 * scale,
-            bodyX + 13 * scale,
+            rightFootX,
             y + 3 * scale
         );
 
         // Feet
         line(
-            bodyX - 13 * scale,
+            leftFootX,
             y + 3 * scale,
-            bodyX - 3 * scale,
+            leftFootX + 10 * scale,
             y + 3 * scale
         );
 
         line(
-            bodyX + 13 * scale,
+            rightFootX,
             y + 3 * scale,
-            bodyX + 23 * scale,
+            rightFootX + 10 * scale,
             y + 3 * scale
         );
     }
@@ -496,16 +498,18 @@ function drawSickSymbols(x, y) {
     textStyle(NORMAL);
 }
 
-function drawDoctor(x, y) {
-    drawStickFigure(x, y, {
+function drawDoctor(x) {
+    const groundY = 282;
+    drawStickFigure(x, groundY, {
         scale: 0.95,
         skin: "#d99b76",
-        shirt: "#fffdf7"
+        shirt: "#fffdf7",
+        straightLegs: true
     });
     noStroke();
     fill("#4aa99d");
-    rect(x - 4, y - 52, 8, 24, 4);
-    rect(x - 12, y - 44, 24, 8, 4);
+    rect(x - 4, groundY - 52, 8, 24, 4);
+    rect(x - 12, groundY - 44, 24, 8, 4);
 }
 
 function drawMedicalCross(x, y) {
