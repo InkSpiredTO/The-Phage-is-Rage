@@ -104,7 +104,7 @@ const BEACH_GROUND_Y = 250;
 const ROOM_GROUND_Y = 285;
 const PHAGE_GAME_COLORS = {
     teal: { label: "Green", value: "#4aa99d" },
-    coral: { label: "Pink", value: "#df62ed" },
+    coral: { label: "Pink", value: "#ed62d1" },
     purple: { label: "Purple", value: "#8b6fc1" }
 };
 const PHAGE_GAME_SEQUENCE = ["coral", "teal", "purple", "teal", "coral", "purple"];
