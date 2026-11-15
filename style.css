@@ -280,6 +280,70 @@ h1 span {
     font-weight: 800;
 }
 
+.phage-game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 10px;
+    border: 2px solid #c5e1e9;
+    border-radius: 16px;
+}
+
+.phage-game-controls legend {
+    padding: 0 6px;
+    color: var(--ink);
+    font-weight: 900;
+}
+
+.phage-color-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border: 2px solid #e8dfcd;
+    border-radius: 999px;
+    background: white;
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 900;
+}
+
+.phage-color-button::before {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--phage-color);
+    content: "";
+}
+
+.phage-color-button[data-phage-color="teal"] {
+    --phage-color: #4aa99d;
+}
+
+.phage-color-button[data-phage-color="coral"] {
+    --phage-color: #ed7762;
+}
+
+.phage-color-button[data-phage-color="purple"] {
+    --phage-color: #8b6fc1;
+}
+
+.phage-color-button[aria-pressed="true"] {
+    border-color: var(--ink);
+}
+
+.phage-game-status {
+    margin-bottom: 14px;
+    color: #397d68;
+    font-weight: 900;
+    text-align: center;
+}
+
 .story-controls {
     display: flex;
     flex-wrap: wrap;

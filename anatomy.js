@@ -68,11 +68,47 @@ const antibioticExplainerSlides = [
     }
 ];
 
-const storySlides = [...beachStorySlides, ...antibioticExplainerSlides];
+const phageConceptSlides = [
+    {
+        caption: "Bacteriophages are found wherever bacteria live—including the gut, on skin, and in many other places.",
+        scene: drawPhageEverywhere,
+        photo: "bacteria"
+    },
+    {
+        caption: "Phages use proteins on their tail fibers like keys. These proteins help a phage attach to a matching bacterium and infect it.",
+        scene: drawPhageKeys,
+        photo: "phage"
+    },
+    {
+        caption: "A phage's keys usually fit only certain bacteria. So a phage often infects a narrow range of bacteria or strains—not every kind.",
+        scene: drawPhageSpecificity,
+        photo: "phage"
+    }
+];
+
+const phageMatchingGameSlide = {
+    caption: "In this simplified game, colors stand for which bacteria a phage can target. Choose your phage's color, then catch five bacteria of the same color!",
+    scene: drawPhageMatchingGame,
+    game: true
+};
+
+const storySlides = [
+    ...beachStorySlides,
+    ...antibioticExplainerSlides,
+    ...phageConceptSlides,
+    phageMatchingGameSlide
+];
 const beachStoryStartIndex = storySlides.findIndex((slide) => slide.scene === drawBeachStory);
 
 const BEACH_GROUND_Y = 250;
 const ROOM_GROUND_Y = 285;
+const PHAGE_GAME_COLORS = {
+    teal: { label: "Teal", value: "#4aa99d" },
+    coral: { label: "Coral", value: "#ed7762" },
+    purple: { label: "Purple", value: "#8b6fc1" }
+};
+const PHAGE_GAME_SEQUENCE = ["coral", "teal", "purple", "teal", "coral", "purple"];
+const PHAGE_GAME_TARGET = 5;
 
 let storyStarted = false;
 let slideIndex = 0;
@@ -86,8 +122,20 @@ let imageSourceLink;
 let imageAttributionElement;
 let imageStatusElement;
 let canvasElement;
+let phageGameControls;
+let phageGameStatus;
+let phageGameRestartButton;
+let phageColorButtons = [];
 let referencePhotos = {};
 const failedReferencePhotos = new Set();
+const phageGame = {
+    selectedColor: "teal",
+    score: 0,
+    won: false,
+    message: "",
+    bacteria: [],
+    nextBacterium: 0
+};
 
 function preload() {
     for (const [key, photoInfo] of Object.entries(referencePhotoInfo)) {
@@ -114,6 +162,10 @@ function setup() {
     imageSourceLink = document.getElementById("story-image-source");
     imageAttributionElement = document.getElementById("story-image-attribution");
     imageStatusElement = document.getElementById("story-image-status");
+    phageGameControls = document.getElementById("phage-game-controls");
+    phageGameStatus = document.getElementById("phage-game-status");
+    phageGameRestartButton = document.getElementById("phage-game-restart");
+    phageColorButtons = Array.from(document.querySelectorAll("[data-phage-color]"));
 
     startButton.addEventListener("click", startStory);
     previousButton.addEventListener("click", () => changeSlide(-1));
@@ -124,6 +176,10 @@ function setup() {
             changeSlide(1);
         }
     });
+    phageColorButtons.forEach((button) => {
+        button.addEventListener("click", () => selectPhageColor(button.dataset.phageColor));
+    });
+    phageGameRestartButton.addEventListener("click", startPhageGame);
 
     updateStoryControls();
 }
@@ -144,8 +200,104 @@ function startStory() {
 }
 
 function changeSlide(direction) {
-    slideIndex = constrain(slideIndex + direction, 0, storySlides.length - 1);
+    const nextIndex = constrain(slideIndex + direction, 0, storySlides.length - 1);
+    if (nextIndex !== slideIndex && storySlides[nextIndex].game) {
+        startPhageGame();
+    }
+    slideIndex = nextIndex;
     updateStoryControls();
+}
+
+function startPhageGame() {
+    phageGame.selectedColor = "teal";
+    phageGame.score = 0;
+    phageGame.won = false;
+    phageGame.nextBacterium = 4;
+    phageGame.message = `Matches: 0/${PHAGE_GAME_TARGET}. Choose a phage color and catch matching bacteria.`;
+    phageGame.bacteria = Array.from({ length: 4 }, (_, index) => ({
+        x: 790 + index * 235,
+        y: 150 + (index % 3) * 28,
+        phase: index * 1.4,
+        speed: 2.4 + (index % 2) * 0.35,
+        color: PHAGE_GAME_SEQUENCE[index],
+        checked: false,
+        eaten: false
+    }));
+    updatePhageColorButtons();
+    updatePhageGameStatus();
+}
+
+function selectPhageColor(colorId) {
+    if (!Object.prototype.hasOwnProperty.call(PHAGE_GAME_COLORS, colorId)) {
+        throw new Error(`Unknown phage color: ${colorId}`);
+    }
+
+    phageGame.selectedColor = colorId;
+    phageGame.message = `Your phage is ${PHAGE_GAME_COLORS[colorId].label}. Catch bacteria of the same color.`;
+    updatePhageColorButtons();
+    updatePhageGameStatus();
+}
+
+function updatePhageColorButtons() {
+    phageColorButtons.forEach((button) => {
+        button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.phageColor === phageGame.selectedColor)
+        );
+    });
+}
+
+function updatePhageGameStatus() {
+    if (!phageGameStatus) {
+        return;
+    }
+    phageGameStatus.textContent = phageGame.message;
+    phageGameRestartButton.hidden = !phageGame.won;
+}
+
+function updatePhageGame() {
+    if (phageGame.won) {
+        return;
+    }
+
+    const phageX = 155;
+    const phageY = 192;
+    phageGame.bacteria.forEach((bacterium) => {
+        if (bacterium.x < -60) {
+            const rightmost = Math.max(...phageGame.bacteria.map((item) => item.x));
+            bacterium.x = Math.max(width + 40, rightmost + 190);
+            bacterium.color = PHAGE_GAME_SEQUENCE[
+                phageGame.nextBacterium % PHAGE_GAME_SEQUENCE.length
+            ];
+            bacterium.phase = phageGame.nextBacterium * 1.4;
+            bacterium.checked = false;
+            bacterium.eaten = false;
+            phageGame.nextBacterium += 1;
+            return;
+        }
+
+        bacterium.x -= bacterium.speed;
+        bacterium.y = 178 + sin(frameCount * 0.045 + bacterium.phase) * 30;
+        if (
+            !bacterium.checked &&
+            Math.abs(bacterium.x - phageX) < 42 &&
+            Math.abs(bacterium.y - phageY) < 54
+        ) {
+            bacterium.checked = true;
+            if (bacterium.color === phageGame.selectedColor) {
+                bacterium.eaten = true;
+                bacterium.x = -100;
+                phageGame.score += 1;
+                phageGame.won = phageGame.score >= PHAGE_GAME_TARGET;
+                phageGame.message = phageGame.won
+                    ? `Great matching! You caught ${PHAGE_GAME_TARGET} bacteria.`
+                    : `Match! ${phageGame.score}/${PHAGE_GAME_TARGET} bacteria caught.`;
+            } else {
+                phageGame.message = `That bacterium is ${PHAGE_GAME_COLORS[bacterium.color].label}. Change your phage color to match.`;
+            }
+            updatePhageGameStatus();
+        }
+    });
 }
 
 function resetStory() {
@@ -164,26 +316,50 @@ function updateStoryControls() {
     if (storyStarted) {
         const slide = storySlides[slideIndex];
         const photoInfo = slide.photo ? referencePhotoInfo[slide.photo] : null;
+        const isGame = slide.game === true;
         captionElement.textContent = slide.caption;
         progressElement.textContent = `Scene ${slideIndex + 1} of ${storySlides.length}`;
         previousButton.disabled = slideIndex === 0;
         nextButton.textContent = slideIndex === storySlides.length - 1 ? "Start over" : "Next scene";
+        phageGameControls.hidden = !isGame;
+        phageGameStatus.hidden = !isGame;
+        phageGameRestartButton.hidden = !isGame || !phageGame.won;
+        if (isGame) {
+            phageGameStatus.textContent = phageGame.message;
+            updatePhageColorButtons();
+        }
         imageCreditElement.hidden = !photoInfo;
         imageStatusElement.hidden = !slide.photo || !failedReferencePhotos.has(slide.photo);
         imageStatusElement.textContent = imageStatusElement.hidden
             ? ""
             : "This reference image could not load. Check your connection or open its source link below.";
+        phageGameControls.hidden = !isGame;
+        phageGameStatus.hidden = !isGame;
         if (photoInfo) {
             imageSourceLink.href = photoInfo.sourceUrl;
             imageSourceLink.textContent = photoInfo.title;
             imageAttributionElement.textContent = photoInfo.credit;
             canvasElement.setAttribute("aria-label", photoInfo.description);
         } else {
-            canvasElement.setAttribute("aria-label", "An animated beach story about a serious infection.");
+            canvasElement.setAttribute(
+                "aria-label",
+                isGame
+                    ? "A color-matching game. Select a phage color and catch matching floating bacteria."
+                    : "An animated beach story about a serious infection."
+            );
+        }
+        if (isGame) {
+            updatePhageColorButtons();
+            updatePhageGameStatus();
+        } else {
+            phageGameRestartButton.hidden = true;
         }
     } else {
         imageCreditElement.hidden = true;
         imageStatusElement.hidden = true;
+        phageGameControls.hidden = true;
+        phageGameStatus.hidden = true;
+        phageGameRestartButton.hidden = true;
     }
 }
 
@@ -226,6 +402,96 @@ function drawPhageIntro() {
 
 function drawPhageTreatment() {
     drawReferencePhotoScene("A possible new way to fight infection", "phage");
+}
+
+function drawPhageEverywhere() {
+    drawReferencePhotoScene("Phages are found where bacteria live", "bacteria");
+}
+
+function drawPhageKeys() {
+    drawReferencePhotoScene("Phages attach using tail fibers", "phage");
+}
+
+function drawPhageSpecificity() {
+    drawReferencePhotoScene("A phage's keys fit certain bacteria", "phage");
+}
+
+function drawPhageMatchingGame() {
+    background("#e6f4f4");
+    noStroke();
+    fill("#29364a");
+    textAlign(CENTER, CENTER);
+    textStyle(BOLD);
+    textSize(20);
+    text("Choose a color. Catch matching bacteria!", width / 2, 31);
+
+    if (!phageGame.won) {
+        updatePhageGame();
+    }
+
+    const phageColor = PHAGE_GAME_COLORS[phageGame.selectedColor].value;
+    drawGamePhage(155, 192, phageColor);
+    phageGame.bacteria.forEach((bacterium) => {
+        if (!bacterium.eaten) {
+            drawGameBacterium(
+                bacterium.x,
+                bacterium.y,
+                PHAGE_GAME_COLORS[bacterium.color].value,
+                frameCount + bacterium.phase
+            );
+        }
+    });
+
+    noStroke();
+    fill("#29364a");
+    textSize(17);
+    text(`Matches: ${phageGame.score}/${PHAGE_GAME_TARGET}`, width / 2, 335);
+    if (phageGame.won) {
+        fill("#fffdf7");
+        rect(300, 137, 200, 74, 16);
+        fill("#29364a");
+        textStyle(BOLD);
+        textSize(21);
+        text("Great matching!", width / 2, 173);
+    }
+}
+
+function drawGamePhage(x, y, color) {
+    push();
+    translate(x, y);
+    stroke("#29364a");
+    strokeWeight(5);
+    strokeCap(ROUND);
+    fill(color);
+    circle(0, -34, 46);
+    line(0, -10, 0, 29);
+    line(-12, -5, 12, -5);
+    line(-12, 16, 12, 16);
+    line(0, 29, 0, 42);
+    line(-13, 35, 13, 35);
+    line(0, 42, -25, 68);
+    line(0, 42, 25, 68);
+    line(-8, 48, -9, 69);
+    line(8, 48, 9, 69);
+    pop();
+}
+
+function drawGameBacterium(x, y, color, animationTime) {
+    push();
+    translate(x, y + sin(animationTime * 0.045) * 5);
+    rotate(sin(animationTime * 0.025) * 0.08);
+    stroke("#29364a");
+    strokeWeight(3);
+    strokeCap(ROUND);
+    fill(color);
+    rectMode(CENTER);
+    rect(0, 0, 54, 30, 15);
+    noStroke();
+    fill("#fffdf7");
+    circle(-12, -3, 5);
+    circle(0, 5, 5);
+    circle(12, -4, 5);
+    pop();
 }
 
 function drawReferencePhotoScene(title, photoKey) {
