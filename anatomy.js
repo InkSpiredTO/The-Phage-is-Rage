@@ -13,7 +13,7 @@ const storySlides = [
     },
     {
         caption: "Doctors try different antibiotics, but they do not stop the infection. It keeps spreading up your lower leg.",
-        scene: drawSpreadingInfection
+        scene: drawAntibioticFailure
     },
     {
         caption: "The doctors explain that this is serious: you could lose your leg, or even die. They need to find another way to fight the infection.",
@@ -178,6 +178,31 @@ function drawHospital() {
     textStyle(BOLD);
     textSize(22);
     text("At the hospital", width / 2, 37);
+    textStyle(NORMAL);
+}
+
+function drawAntibioticFailure() {
+    drawRoom("#e9f1ed");
+    drawBed(78, 244, 400);
+    drawStickFigure(270, 244, {
+        lying: true,
+        skin: "#bd7958",
+        shirt: "#f59a81",
+        sick: true
+    });
+    drawDoctor(570, 245);
+    drawMedicineBottle(490, 112);
+    drawMedicineBottle(560, 112);
+    drawBacteria(475, 185);
+    drawBacteria(525, 175);
+    drawBacteria(540, 210);
+
+    noStroke();
+    fill("#29364a");
+    textAlign(CENTER, CENTER);
+    textStyle(BOLD);
+    textSize(20);
+    text("The antibiotics aren't working", width / 2, 37);
     textStyle(NORMAL);
 }
 
@@ -505,6 +530,15 @@ function drawMedicineBottle(x, y) {
     noStroke();
 }
 
+function drawBacteria(x, y) {
+    noStroke();
+    fill("#72b99e");
+    ellipse(x, y, 25, 16);
+    fill("#397d68");
+    circle(x - 5, y, 3);
+    circle(x + 2, y - 3, 3);
+    circle(x + 6, y + 3, 3);
+}
 
 function drawSpeechBubble(x, y, message) {
     noStroke();
