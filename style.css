@@ -361,12 +361,33 @@ h1 span {
 }
 
 .level-hero {
+    grid-template-columns: 1fr;
     padding-top: 35px;
     padding-bottom: 38px;
 }
 
+.level-copy {
+    text-align: center;
+}
+
 .level-hero h1 {
+    margin-right: auto;
+    margin-left: auto;
     font-size: clamp(2.5rem, 4.6vw, 4rem);
+}
+
+.level-copy .intro {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.level-copy .fact-bubble {
+    text-align: left;
+}
+
+.level-hero .game-panel {
+    width: min(100%, 800px);
+    margin: 0 auto;
 }
 
 .fact-bubble {
