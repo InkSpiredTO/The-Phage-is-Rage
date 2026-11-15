@@ -412,22 +412,6 @@ function drawStickFigure(x, y, options = {}) {
     strokeWeight(2 * scale);
 
     if (options.sad || options.sick) {
-        // Sad eyebrows
-        line(
-            headX - 11 * scale,
-            headY - 10 * scale,
-            headX - 4 * scale,
-            headY - 7 * scale
-        );
-
-        line(
-            headX + 11 * scale,
-            headY - 10 * scale,
-            headX + 4 * scale,
-            headY - 7 * scale
-        );
-
-        // Downturned mouth
         arc(
             headX,
             headY + 13 * scale,
