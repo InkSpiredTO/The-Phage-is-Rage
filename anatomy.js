@@ -21,6 +21,9 @@ const storySlides = [
     }
 ];
 
+const BEACH_GROUND_Y = 250;
+const ROOM_GROUND_Y = 285;
+
 let storyStarted = false;
 let slideIndex = 0;
 let startButton;
@@ -101,7 +104,7 @@ function drawWelcomeScene() {
     drawSparkle(180, 125, frameCount * 0.06);
     drawSparkle(645, 155, frameCount * 0.05);
 
-    drawStickFigure(400, 244, {
+    drawStickFigure(400, BEACH_GROUND_Y, {
         scale: 1.15,
         wave: true,
         shirt: "#f59a81",
@@ -124,7 +127,7 @@ function drawBeachStory() {
     drawCloud(126, 67);
     drawCloud(640, 92);
 
-    drawStickFigure(365, 246, {
+    drawStickFigure(365, BEACH_GROUND_Y, {
         walk: true,
         skin: "#bd7958",
         shirt: "#f59a81"
@@ -208,7 +211,7 @@ function drawAntibioticFailure() {
 
 function drawDoctorWarning() {
     drawRoom("#f8edda");
-    drawStickFigure(278, 262, {
+    drawStickFigure(278, ROOM_GROUND_Y, {
         skin: "#bd7958",
         shirt: "#f59a81"
     });
@@ -361,29 +364,29 @@ function drawStickFigure(x, y, options = {}) {
             leftHipX,
             bodyY + 40 * scale,
             leftFootX,
-            y + 3 * scale
+            y
         );
 
         line(
             rightHipX,
             bodyY + 40 * scale,
             rightFootX,
-            y + 3 * scale
+            y
         );
 
         // Feet
         line(
             leftFootX,
-            y + 3 * scale,
+            y,
             leftFootX + 10 * scale,
-            y + 3 * scale
+            y
         );
 
         line(
             rightFootX,
-            y + 3 * scale,
+            y,
             rightFootX + 10 * scale,
-            y + 3 * scale
+            y
         );
     }
 
@@ -499,8 +502,7 @@ function drawSickSymbols(x, y) {
 }
 
 function drawDoctor(x) {
-    const groundY = 282;
-    drawStickFigure(x, groundY, {
+    drawStickFigure(x, ROOM_GROUND_Y, {
         scale: 0.95,
         skin: "#d99b76",
         shirt: "#fffdf7",
@@ -508,8 +510,8 @@ function drawDoctor(x) {
     });
     noStroke();
     fill("#4aa99d");
-    rect(x - 4, groundY - 52, 8, 24, 4);
-    rect(x - 12, groundY - 44, 24, 8, 4);
+    rect(x - 4, ROOM_GROUND_Y - 52, 8, 24, 4);
+    rect(x - 12, ROOM_GROUND_Y - 44, 24, 8, 4);
 }
 
 function drawMedicalCross(x, y) {
