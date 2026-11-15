@@ -24,26 +24,6 @@ const referencePhotoInfo = {
 
 const storySlides = [
     {
-        caption: "What can make antibiotics stop working? Antibiotic resistance (ABR) means some bacteria can survive medicines that would usually kill them. An infection caused by an antibiotic-resistant strain can be harder to treat.",
-        scene: drawResistanceIntro,
-        photo: "resistance"
-    },
-    {
-        caption: "How does resistance spread? Antibiotics may kill susceptible bacteria, while resistant bacteria survive and multiply. Overuse or misuse can increase this selective pressure, so resistance becomes more common through natural selection.",
-        scene: drawNaturalSelection,
-        photo: "bacteria"
-    },
-    {
-        caption: "There is hope: bacteriophages, or phages, are viruses that naturally infect and attack bacteria. Researchers are studying them as another way to fight some bacterial infections.",
-        scene: drawPhageIntro,
-        photo: "phage"
-    },
-    {
-        caption: "In some reported treatments, phages have been given directly into the bloodstream, with few side effects reported in those cases. Phage therapy is still being studied, and its risks and benefits depend on the patient and infection.",
-        scene: drawPhageTreatment,
-        photo: "phage"
-    },
-    {
         caption: "Imagine a sunny beach, soft white sand, and gentle waves. Ouch! A broken seashell cuts the bottom of your foot. You brush it off and keep enjoying your vacation.",
         scene: drawBeachStory
     },
@@ -62,6 +42,26 @@ const storySlides = [
     {
         caption: "The doctors explain that this is serious: you could lose your leg, or even die. They need to find another way to fight the infection.",
         scene: drawDoctorWarning
+    },
+    {
+        caption: "What can make antibiotics stop working? Antibiotic resistance (ABR) means some bacteria can survive medicines that would usually kill them. An infection caused by an antibiotic-resistant strain can be harder to treat.",
+        scene: drawResistanceIntro,
+        photo: "resistance"
+    },
+    {
+        caption: "How does resistance spread? Antibiotics may kill susceptible bacteria, while resistant bacteria survive and multiply. Overuse or misuse can increase this selective pressure, so resistance becomes more common through natural selection.",
+        scene: drawNaturalSelection,
+        photo: "bacteria"
+    },
+    {
+        caption: "There is hope: bacteriophages, or phages, are viruses that naturally infect and attack bacteria. Researchers are studying them as another way to fight some bacterial infections.",
+        scene: drawPhageIntro,
+        photo: "phage"
+    },
+    {
+        caption: "In some reported treatments, phages have been given directly into the bloodstream, with few side effects reported in those cases. Phage therapy is still being studied, and its risks and benefits depend on the patient and infection.",
+        scene: drawPhageTreatment,
+        photo: "phage"
     }
 ];
 
