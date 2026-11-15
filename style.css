@@ -262,6 +262,24 @@ h1 span {
     line-height: 1.55;
 }
 
+.story-image-credit,
+.story-image-status {
+    margin: -8px 0 16px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.story-image-credit a {
+    color: #a34f3c;
+    font-weight: 900;
+}
+
+.story-image-status {
+    color: #a34f3c;
+    font-weight: 800;
+}
+
 .story-controls {
     display: flex;
     flex-wrap: wrap;

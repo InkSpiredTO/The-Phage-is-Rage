@@ -1,4 +1,48 @@
+const referencePhotoInfo = {
+    resistance: {
+        url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Antibiotic_sensitivity_and_resistance.jpg/960px-Antibiotic_sensitivity_and_resistance.jpg",
+        sourceUrl: "https://commons.wikimedia.org/wiki/File:Antibiotic_sensitivity_and_resistance.jpg",
+        title: "Antibiotic sensitivity and resistance",
+        credit: "Dr Graham Beards · CC BY-SA 4.0",
+        description: "Petri dishes showing bacterial sensitivity and resistance to antibiotics."
+    },
+    bacteria: {
+        url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/E_coli_at_10000x%2C_original.jpg/960px-E_coli_at_10000x%2C_original.jpg",
+        sourceUrl: "https://commons.wikimedia.org/wiki/File:E_coli_at_10000x,_original.jpg",
+        title: "E. coli at 10,000×",
+        credit: "Eric Erbe and Christopher Pooley, USDA ARS · Public domain",
+        description: "Electron micrograph of a cluster of E. coli bacteria."
+    },
+    phage: {
+        url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Enterobacteria_phage_T2_transmission_electron_micrograph.jpg/960px-Enterobacteria_phage_T2_transmission_electron_micrograph.jpg",
+        sourceUrl: "https://commons.wikimedia.org/wiki/File:Enterobacteria_phage_T2_transmission_electron_micrograph.jpg",
+        title: "T2 bacteriophage electron micrograph",
+        credit: "SnaxMikn · CC BY-SA 4.0",
+        description: "Transmission electron micrograph of a T2 bacteriophage."
+    }
+};
+
 const storySlides = [
+    {
+        caption: "What can make antibiotics stop working? Antibiotic resistance (ABR) means some bacteria can survive medicines that would usually kill them. An infection caused by an antibiotic-resistant strain can be harder to treat.",
+        scene: drawResistanceIntro,
+        photo: "resistance"
+    },
+    {
+        caption: "How does resistance spread? Antibiotics may kill susceptible bacteria, while resistant bacteria survive and multiply. Overuse or misuse can increase this selective pressure, so resistance becomes more common through natural selection.",
+        scene: drawNaturalSelection,
+        photo: "bacteria"
+    },
+    {
+        caption: "There is hope: bacteriophages, or phages, are viruses that naturally infect and attack bacteria. Researchers are studying them as another way to fight some bacterial infections.",
+        scene: drawPhageIntro,
+        photo: "phage"
+    },
+    {
+        caption: "In some reported treatments, phages have been given directly into the bloodstream, with few side effects reported in those cases. Phage therapy is still being studied, and its risks and benefits depend on the patient and infection.",
+        scene: drawPhageTreatment,
+        photo: "phage"
+    },
     {
         caption: "Imagine a sunny beach, soft white sand, and gentle waves. Ouch! A broken seashell cuts the bottom of your foot. You brush it off and keep enjoying your vacation.",
         scene: drawBeachStory
@@ -31,17 +75,39 @@ let previousButton;
 let nextButton;
 let captionElement;
 let progressElement;
+let imageCreditElement;
+let imageSourceLink;
+let imageAttributionElement;
+let imageStatusElement;
+let canvasElement;
+let referencePhotos = {};
+const failedReferencePhotos = new Set();
+
+function preload() {
+    for (const [key, photoInfo] of Object.entries(referencePhotoInfo)) {
+        referencePhotos[key] = loadImage(
+            photoInfo.url,
+            undefined,
+            () => failedReferencePhotos.add(key)
+        );
+    }
+}
 
 function setup() {
     const canvas = createCanvas(800, 360);
     canvas.parent("play-window");
     canvas.elt.setAttribute("aria-label", "An animated story about a beach cut and a serious infection.");
+    canvasElement = canvas.elt;
 
     startButton = document.getElementById("start-story");
     previousButton = document.getElementById("previous-slide");
     nextButton = document.getElementById("next-slide");
     captionElement = document.getElementById("story-caption");
     progressElement = document.getElementById("story-progress");
+    imageCreditElement = document.getElementById("story-image-credit");
+    imageSourceLink = document.getElementById("story-image-source");
+    imageAttributionElement = document.getElementById("story-image-attribution");
+    imageStatusElement = document.getElementById("story-image-status");
 
     startButton.addEventListener("click", startStory);
     previousButton.addEventListener("click", () => changeSlide(-1));
@@ -90,10 +156,28 @@ function updateStoryControls() {
     progressElement.hidden = !storyStarted;
 
     if (storyStarted) {
-        captionElement.textContent = storySlides[slideIndex].caption;
+        const slide = storySlides[slideIndex];
+        const photoInfo = slide.photo ? referencePhotoInfo[slide.photo] : null;
+        captionElement.textContent = slide.caption;
         progressElement.textContent = `Scene ${slideIndex + 1} of ${storySlides.length}`;
         previousButton.disabled = slideIndex === 0;
         nextButton.textContent = slideIndex === storySlides.length - 1 ? "Start over" : "Next scene";
+        imageCreditElement.hidden = !photoInfo;
+        imageStatusElement.hidden = !slide.photo || !failedReferencePhotos.has(slide.photo);
+        imageStatusElement.textContent = imageStatusElement.hidden
+            ? ""
+            : "This reference image could not load. Check your connection or open its source link below.";
+        if (photoInfo) {
+            imageSourceLink.href = photoInfo.sourceUrl;
+            imageSourceLink.textContent = photoInfo.title;
+            imageAttributionElement.textContent = photoInfo.credit;
+            canvasElement.setAttribute("aria-label", photoInfo.description);
+        } else {
+            canvasElement.setAttribute("aria-label", "An animated beach story about a serious infection.");
+        }
+    } else {
+        imageCreditElement.hidden = true;
+        imageStatusElement.hidden = true;
     }
 }
 
@@ -120,6 +204,56 @@ function drawWelcomeScene() {
     textSize(17);
     textStyle(NORMAL);
     text("One tiny cut can lead to a big problem.", width / 2, 82);
+}
+
+function drawResistanceIntro() {
+    drawReferencePhotoScene("Antibiotic resistance", "resistance");
+}
+
+function drawNaturalSelection() {
+    drawReferencePhotoScene("Bacteria and natural selection", "bacteria");
+}
+
+function drawPhageIntro() {
+    drawReferencePhotoScene("Meet bacteriophages", "phage");
+}
+
+function drawPhageTreatment() {
+    drawReferencePhotoScene("A possible new way to fight infection", "phage");
+}
+
+function drawReferencePhotoScene(title, photoKey) {
+    background("#e6f4f4");
+    noStroke();
+    fill("#29364a");
+    textAlign(CENTER, CENTER);
+    textStyle(BOLD);
+    textSize(22);
+    text(title, width / 2, 35);
+
+    fill("#fffdf7");
+    rect(28, 62, 744, 276, 18);
+
+    const photo = referencePhotos[photoKey];
+    if (photo && photo.width > 0 && photo.height > 0) {
+        const maxWidth = 700;
+        const maxHeight = 250;
+        const fit = Math.min(maxWidth / photo.width, maxHeight / photo.height);
+        const photoWidth = photo.width * fit;
+        const photoHeight = photo.height * fit;
+        image(
+            photo,
+            (width - photoWidth) / 2,
+            75 + (maxHeight - photoHeight) / 2,
+            photoWidth,
+            photoHeight
+        );
+    } else {
+        fill("#647184");
+        textStyle(NORMAL);
+        textSize(17);
+        text("Loading reference photo…", width / 2, height / 2);
+    }
 }
 
 function drawBeachStory() {
@@ -198,9 +332,6 @@ function drawAntibioticFailure() {
     drawDoctor(570, true);
     drawMedicineBottle(490, 112);
     drawMedicineBottle(560, 112);
-    drawBacteria(475, 185);
-    drawBacteria(525, 175);
-    drawBacteria(540, 210);
 
     noStroke();
     fill("#29364a");
@@ -528,16 +659,6 @@ function drawMedicineBottle(x, y) {
     line(x - 4, y + 7, x + 4, y + 7);
     line(x, y + 3, x, y + 11);
     noStroke();
-}
-
-function drawBacteria(x, y) {
-    noStroke();
-    fill("#72b99e");
-    ellipse(x, y, 25, 16);
-    fill("#397d68");
-    circle(x - 5, y, 3);
-    circle(x + 2, y - 3, 3);
-    circle(x + 6, y + 3, 3);
 }
 
 function drawSpeechBubble(x, y, message) {
