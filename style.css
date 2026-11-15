@@ -83,6 +83,14 @@ a:focus-visible {
     color: #8e531c;
 }
 
+.brand-mark svg {
+    width: 28px;
+    height: 28px;
+    overflow: visible;
+    fill: currentColor;
+    filter: drop-shadow(1px 2px 0 rgb(41 54 74 / 22%));
+}
+
 .site-nav {
     display: flex;
     align-items: center;
