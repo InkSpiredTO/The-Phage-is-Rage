@@ -22,7 +22,7 @@ const referencePhotoInfo = {
     }
 };
 
-const storySlides = [
+const beachStorySlides = [
     {
         caption: "Imagine a sunny beach, soft white sand, and gentle waves. Ouch! A broken seashell cuts the bottom of your foot. You brush it off and keep enjoying your vacation.",
         scene: drawBeachStory
@@ -42,7 +42,10 @@ const storySlides = [
     {
         caption: "The doctors explain that this is serious: you could lose your leg, or even die. They need to find another way to fight the infection.",
         scene: drawDoctorWarning
-    },
+    }
+];
+
+const antibioticExplainerSlides = [
     {
         caption: "What can make antibiotics stop working? Antibiotic resistance (ABR) means some bacteria can survive medicines that would usually kill them. An infection caused by an antibiotic-resistant strain can be harder to treat.",
         scene: drawResistanceIntro,
@@ -64,6 +67,9 @@ const storySlides = [
         photo: "phage"
     }
 ];
+
+const storySlides = [...beachStorySlides, ...antibioticExplainerSlides];
+const beachStoryStartIndex = storySlides.findIndex((slide) => slide.scene === drawBeachStory);
 
 const BEACH_GROUND_Y = 250;
 const ROOM_GROUND_Y = 285;
@@ -133,7 +139,7 @@ function draw() {
 
 function startStory() {
     storyStarted = true;
-    slideIndex = 0;
+    slideIndex = beachStoryStartIndex;
     updateStoryControls();
 }
 
@@ -144,7 +150,7 @@ function changeSlide(direction) {
 
 function resetStory() {
     storyStarted = false;
-    slideIndex = 0;
+    slideIndex = beachStoryStartIndex;
     updateStoryControls();
 }
 

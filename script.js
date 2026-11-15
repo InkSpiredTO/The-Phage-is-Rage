@@ -30,12 +30,10 @@ function draw() {
     } else if (scene === "saviors") {
         drawBacterium(282, 188, 1.05);
         drawPhage(550, 183 + bob, 1.08);
-        drawHeart(415, 125 + bob, 18);
         drawSparkle(680, 250, 12, "#fffdf7");
     } else {
         drawPhage(280, 185 + bob, 1.1);
         drawBacterium(555, 190, 1.12);
-        drawHeart(425, 126 + bob, 17);
     }
 }
 
@@ -123,20 +121,6 @@ function drawSparkle(x, y, radius, color) {
     vertex(-radius * 0.28, radius * 0.28);
     vertex(-radius, 0);
     vertex(-radius * 0.28, -radius * 0.28);
-    endShape(CLOSE);
-    pop();
-}
-
-function drawHeart(x, y, size) {
-    push();
-    translate(x, y);
-    rotate(PI);
-    noStroke();
-    fill("#f58b78");
-    beginShape();
-    vertex(0, size);
-    bezierVertex(-size * 1.5, size * 0.1, -size, -size, 0, -size * 0.35);
-    bezierVertex(size, -size, size * 1.5, size * 0.1, 0, size);
     endShape(CLOSE);
     pop();
 }
