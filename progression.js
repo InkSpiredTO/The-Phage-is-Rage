@@ -14,7 +14,7 @@
             link.setAttribute("aria-disabled", String(locked));
             link.tabIndex = locked ? -1 : 0;
             link.classList.toggle("is-locked", locked);
-            link.title = locked ? `Finish ${requiredLevel === "anatomy" ? "Meet a Phage" : "The Hunt"} to unlock this level.` : "";
+            link.title = locked ? `Finish ${requiredLevel === "anatomy" ? "Meet a Phage" : "The Right Match"} to unlock this level.` : "";
         });
     }
 

@@ -208,7 +208,7 @@ function checkScientistMatches() {
         markLevelComplete("saviors");
         saviorsCompleted = true;
     }
-    saviorsGameStatus.textContent = "All five matches are correct! Cell Savers complete.";
+    saviorsGameStatus.textContent = "All five matches are correct! Phage Hero complete.";
     saviorsCheckButton.disabled = true;
     saviorsCheckButton.textContent = "Level complete!";
 }
