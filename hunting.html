@@ -7,9 +7,10 @@
     <title>The Hunt | The Phage is Rage</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+    <script src="progression.js" defer></script>
     <script src="hunting.js" defer></script>
 </head>
-<body data-scene="hunting">
+<body data-scene="hunting" data-requires-level="anatomy">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
         <a class="brand" href="index.html" aria-label="The Phage is Rage home">
@@ -20,7 +21,7 @@
             <a href="index.html">Home</a>
             <a href="anatomy.html">Meet a Phage</a>
             <a class="current" href="hunting.html" aria-current="page">The Hunt</a>
-            <a href="phage_saviors.html">Cell Savers</a>
+            <a href="phage_saviors.html" data-requires-completion="hunting">Cell Savers</a>
         </nav>
     </header>
 
@@ -37,7 +38,7 @@
         </section>
         <nav class="level-pagination" aria-label="Level navigation">
             <a class="button button-secondary" href="anatomy.html"><span aria-hidden="true">←</span> Previous: Meet a Phage</a>
-            <a class="button button-primary" href="phage_saviors.html">Next: Cell Savers <span aria-hidden="true">→</span></a>
+            <a class="button button-primary" href="phage_saviors.html" data-completes-level="hunting">Complete &amp; Next: Cell Savers <span aria-hidden="true">→</span></a>
         </nav>
     </main>
 

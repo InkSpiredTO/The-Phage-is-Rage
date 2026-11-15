@@ -263,6 +263,9 @@ function updatePhageGame() {
     const phageX = 155;
     const phageY = 192;
     phageGame.bacteria.forEach((bacterium) => {
+        if (phageGame.won) {
+            return;
+        }
         if (bacterium.x < -60) {
             const rightmost = Math.max(...phageGame.bacteria.map((item) => item.x));
             bacterium.x = Math.max(width + 40, rightmost + 190);
@@ -292,6 +295,9 @@ function updatePhageGame() {
                 phageGame.message = phageGame.won
                     ? `Great matching! You caught ${PHAGE_GAME_TARGET} bacteria.`
                     : `Match! ${phageGame.score}/${PHAGE_GAME_TARGET} bacteria caught.`;
+                if (phageGame.won) {
+                    markLevelComplete("anatomy");
+                }
             } else {
                 phageGame.message = `That bacterium is ${PHAGE_GAME_COLORS[bacterium.color].label}. Change your phage color to match.`;
             }

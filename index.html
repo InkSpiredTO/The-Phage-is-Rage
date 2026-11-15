@@ -7,6 +7,7 @@
     <title>The Phage is Rage | Tiny heroes, big adventures</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+    <script src="progression.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 <body data-scene="home">
@@ -19,8 +20,8 @@
         <nav class="site-nav" aria-label="Main navigation">
             <a class="current" href="index.html" aria-current="page">Home</a>
             <a href="anatomy.html">Meet a Phage</a>
-            <a href="hunting.html">The Hunt</a>
-            <a href="phage_saviors.html">Cell Savers</a>
+            <a href="hunting.html" data-requires-completion="anatomy">The Hunt</a>
+            <a href="phage_saviors.html" data-requires-completion="hunting">Cell Savers</a>
         </nav>
     </header>
 

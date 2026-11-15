@@ -7,6 +7,7 @@
     <title>Meet a Phage | The Phage is Rage</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+    <script src="progression.js" defer></script>
     <script src="anatomy.js?v=story-order-2" defer></script>
 </head>
 <body data-scene="anatomy">
@@ -19,8 +20,8 @@
         <nav class="site-nav" aria-label="Main navigation">
             <a href="index.html">Home</a>
             <a class="current" href="anatomy.html" aria-current="page">Meet a Phage</a>
-            <a href="hunting.html">The Hunt</a>
-            <a href="phage_saviors.html">Cell Savers</a>
+            <a href="hunting.html" data-requires-completion="anatomy">The Hunt</a>
+            <a href="phage_saviors.html" data-requires-completion="hunting">Cell Savers</a>
         </nav>
     </header>
 
@@ -59,7 +60,7 @@
         </section>
         <nav class="level-pagination" aria-label="Level navigation">
             <a class="button button-secondary" href="index.html"><span aria-hidden="true">←</span> All levels</a>
-            <a class="button button-primary" href="hunting.html">Next: The Hunt <span aria-hidden="true">→</span></a>
+            <a class="button button-primary" href="hunting.html" data-requires-completion="anatomy">Next: The Hunt <span aria-hidden="true">→</span></a>
         </nav>
     </main>
 

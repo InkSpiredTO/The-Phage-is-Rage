@@ -196,6 +196,18 @@ h1 span {
     color: var(--ink);
 }
 
+.is-locked {
+    cursor: not-allowed !important;
+    opacity: 0.55;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.is-locked::after {
+    content: " (Locked)";
+    font-size: 0.78em;
+}
+
 .illustration,
 .game-panel {
     width: 100%;
