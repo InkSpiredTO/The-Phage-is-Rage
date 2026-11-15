@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
     <script src="progression.js" defer></script>
-    <script src="phage_saviors.js" defer></script>
+    <script src="phage_saviors.js?v=scientist-slides-match-game-1" defer></script>
 </head>
 <body data-scene="saviors" data-requires-level="hunting">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -31,10 +31,34 @@
         <section class="level-hero">
             <div class="game-panel">
                 <div class="game-panel-header">
-                    <span>Level playground</span>
-                    <span class="game-status">TEST MODE</span>
+                    <span>Scientists who shaped phage research</span>
+                    <span class="game-status">PHOTO STORY + GAME</span>
                 </div>
-                <div class="play-window" id="play-window" role="region" aria-label="Level 3 p5.js play window"></div>
+                <div class="play-window" id="play-window" role="region" aria-label="Level 3 scientist photo story"></div>
+                <div class="story-interface">
+                    <p class="story-progress" id="saviors-progress" hidden></p>
+                    <p class="story-caption" id="saviors-caption" aria-live="polite" hidden></p>
+                    <p class="story-image-credit" id="saviors-image-credit" hidden>
+                        <a id="saviors-image-source" href="" target="_blank" rel="noopener noreferrer"></a>
+                        <span id="saviors-image-attribution"></span>
+                    </p>
+                    <p class="story-image-status" id="saviors-image-status" role="status" hidden></p>
+                    <div class="story-controls" id="saviors-slide-controls">
+                        <button class="button button-primary" id="saviors-start" type="button">Start slides</button>
+                        <button class="button button-secondary" id="saviors-previous" type="button" hidden>Previous</button>
+                        <button class="button button-primary" id="saviors-next" type="button" hidden>Next slide</button>
+                    </div>
+                    <section class="scientist-game" id="scientist-game" aria-labelledby="scientist-game-title" hidden>
+                        <h2 id="scientist-game-title">Match each scientist to their contribution</h2>
+                        <p>Choose one contribution for each person, then check your matches. You can try again.</p>
+                        <div id="scientist-match-list"></div>
+                        <p class="scientist-game-status" id="scientist-game-status" role="status" aria-live="polite"></p>
+                        <div class="story-controls">
+                            <button class="button button-secondary" id="scientist-back" type="button">Back to slides</button>
+                            <button class="button button-primary" id="scientist-check" type="button">Check matches</button>
+                        </div>
+                    </section>
+                </div>
             </div>
         </section>
         <nav class="level-pagination" aria-label="Level navigation">
