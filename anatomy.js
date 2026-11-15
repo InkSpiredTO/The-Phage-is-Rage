@@ -303,11 +303,13 @@ function drawStickFigure(x, y, options = {}) {
     }
 
     if (!options.lying) {
-        const step = options.walk ? sin(frameCount * 0.12) * 8 : 0;
-        line(bodyX - 6 * scale, bodyY + 40 * scale, bodyX - 15 * scale + step, y + 4 * scale);
-        line(bodyX + 6 * scale, bodyY + 40 * scale, bodyX + 16 * scale - step, y + 4 * scale);
-        line(bodyX - 15 * scale + step, y + 4 * scale, bodyX - 5 * scale + step, y + 4 * scale);
-        line(bodyX + 16 * scale - step, y + 4 * scale, bodyX + 25 * scale - step, y + 4 * scale);
+        const step = options.walk ? sin(frameCount * 0.12) * 4 : 0;
+        const leftAnkle = bodyX - 8 * scale + step;
+        const rightAnkle = bodyX + 8 * scale - step;
+        line(bodyX - 6 * scale, bodyY + 40 * scale, leftAnkle, y + 4 * scale);
+        line(bodyX + 6 * scale, bodyY + 40 * scale, rightAnkle, y + 4 * scale);
+        line(leftAnkle, y + 4 * scale, leftAnkle + 8 * scale, y + 4 * scale);
+        line(rightAnkle, y + 4 * scale, rightAnkle + 8 * scale, y + 4 * scale);
     }
 
     noStroke();
