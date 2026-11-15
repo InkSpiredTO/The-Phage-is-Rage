@@ -29,6 +29,18 @@
     };
 
     document.addEventListener("click", (event) => {
+        const resetButton = event.target.closest("[data-reset-levels]");
+        if (resetButton) {
+            event.preventDefault();
+            if (window.confirm("Reset all level progress? This will lock later levels again.")) {
+                Object.keys(levelPages).forEach((level) => {
+                    localStorage.removeItem(completionKey(level));
+                });
+                window.location.replace(levelPages.anatomy);
+            }
+            return;
+        }
+
         const link = event.target.closest("a");
         if (!link) {
             return;

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
     <script src="progression.js" defer></script>
-    <script src="hunting.js" defer></script>
+    <script src="hunting.js?v=patient-phage-slides-1" defer></script>
 </head>
 <body data-scene="hunting" data-requires-level="anatomy">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -22,6 +22,7 @@
             <a href="anatomy.html">Meet a Phage</a>
             <a class="current" href="hunting.html" aria-current="page">The Hunt</a>
             <a href="phage_saviors.html" data-requires-completion="hunting">Cell Savers</a>
+            <button class="button button-secondary reset-levels-button" type="button" data-reset-levels>Reset levels</button>
         </nav>
     </header>
 
@@ -30,15 +31,30 @@
         <section class="level-hero">
             <div class="game-panel">
                 <div class="game-panel-header">
-                    <span>Level playground</span>
-                    <span class="game-status">TEST MODE</span>
+                    <span>Patient-matched phages</span>
+                    <span class="game-status">PHOTO STORY</span>
                 </div>
-                <div class="play-window" id="play-window" role="region" aria-label="Level 2 p5.js play window"></div>
+                <div class="play-window" id="play-window" role="region" aria-label="Level 2 static photo story"></div>
+                <div class="story-interface">
+                    <p class="story-progress" id="hunting-progress" hidden></p>
+                    <p class="story-caption" id="hunting-caption" aria-live="polite" hidden></p>
+                    <p class="story-image-credit" id="hunting-image-credit" hidden>
+                        <a id="hunting-image-source" href="" target="_blank" rel="noopener noreferrer"></a>
+                        <span id="hunting-image-attribution"></span>
+                    </p>
+                    <p class="story-image-status" id="hunting-image-status" role="status" hidden></p>
+                    <div class="story-controls">
+                        <button class="button button-primary" id="hunting-start" type="button">Start slides</button>
+                        <button class="button button-secondary" id="hunting-previous" type="button" hidden>Previous</button>
+                        <button class="button button-primary" id="hunting-next" type="button" hidden>Next slide</button>
+                        <button class="button button-primary" id="hunting-finish" type="button" hidden>Finish level</button>
+                    </div>
+                </div>
             </div>
         </section>
         <nav class="level-pagination" aria-label="Level navigation">
             <a class="button button-secondary" href="anatomy.html"><span aria-hidden="true">←</span> Previous: Meet a Phage</a>
-            <a class="button button-primary" href="phage_saviors.html" data-completes-level="hunting">Complete &amp; Next: Cell Savers <span aria-hidden="true">→</span></a>
+            <a class="button button-primary" href="phage_saviors.html" data-requires-completion="hunting">Next: Cell Savers <span aria-hidden="true">→</span></a>
         </nav>
     </main>
 
