@@ -7,7 +7,7 @@
     <title>Meet a Phage | The Phage is Rage</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="anatomy.js" defer></script>
 </head>
 <body data-scene="anatomy">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -33,7 +33,13 @@
                 <p class="intro">Bacteriophages are tiny viruses that can infect bacteria. Let's get to know their amazing parts!</p>
                 <div class="fact-bubble"><span aria-hidden="true">💡</span> “Bacteriophage” means “bacteria eater”!</div>
             </div>
-            <div class="illustration" id="illustration" aria-hidden="true"></div>
+            <div class="game-panel">
+                <div class="game-panel-header">
+                    <span>Level playground</span>
+                    <span class="game-status">TEST MODE</span>
+                </div>
+                <div class="play-window" id="play-window" role="region" aria-label="Level 1 p5.js play window"></div>
+            </div>
         </section>
         <section class="coming-soon">
             <span class="coming-icon" aria-hidden="true">🧩</span>
