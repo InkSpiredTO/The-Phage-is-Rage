@@ -170,9 +170,10 @@ function drawHospital() {
     drawStickFigure(270, 232, {
         lying: true,
         skin: "#bd7958",
-        shirt: "#f59a81"
+        shirt: "#f59a81",
+        sad: true
     });
-    drawDoctor(565);
+    drawDoctor(565, true);
     drawMedicalCross(680, 93);
 
     noStroke();
@@ -191,9 +192,10 @@ function drawAntibioticFailure() {
         lying: true,
         skin: "#bd7958",
         shirt: "#f59a81",
-        sick: true
+        sick: true,
+        sad: true
     });
-    drawDoctor(570);
+    drawDoctor(570, true);
     drawMedicineBottle(490, 112);
     drawMedicineBottle(560, 112);
     drawBacteria(475, 185);
@@ -213,9 +215,10 @@ function drawDoctorWarning() {
     drawRoom("#f8edda");
     drawStickFigure(278, ROOM_GROUND_Y, {
         skin: "#bd7958",
-        shirt: "#f59a81"
+        shirt: "#f59a81",
+        sad: true
     });
-    drawDoctor(505);
+    drawDoctor(505, true);
     drawSpeechBubble(641, 121, "This is serious.\nWe need another plan.");
     drawMedicalCross(122, 91);
 
@@ -292,6 +295,12 @@ function drawStickFigure(x, y, options = {}) {
     strokeCap(ROUND);
     fill(skin);
     circle(headX, headY, 38 * scale);
+
+    if (!options.lying) {
+        stroke(skin);
+        strokeWeight(8 * scale);
+        line(headX, headY + 17 * scale, bodyX, bodyY - 5 * scale);
+    }
 
     // Body / shirt
     noStroke();
@@ -501,12 +510,13 @@ function drawSickSymbols(x, y) {
     textStyle(NORMAL);
 }
 
-function drawDoctor(x) {
+function drawDoctor(x, sad = false) {
     drawStickFigure(x, ROOM_GROUND_Y, {
         scale: 0.95,
         skin: "#d99b76",
         shirt: "#fffdf7",
-        straightLegs: true
+        straightLegs: true,
+        sad
     });
     noStroke();
     fill("#4aa99d");
