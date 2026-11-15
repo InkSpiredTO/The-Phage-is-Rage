@@ -239,6 +239,52 @@ h1 span {
     background: #d7f0e9;
 }
 
+.story-interface {
+    padding: 18px 22px 22px;
+    background: var(--paper);
+}
+
+.story-progress {
+    margin-bottom: 6px;
+    color: #a34f3c;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.story-caption {
+    min-height: 3.2em;
+    margin-bottom: 16px;
+    color: var(--ink);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.55;
+}
+
+.story-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+button.button {
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+button.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
 .illustration canvas,
 .play-window canvas {
     display: block;
@@ -502,6 +548,14 @@ h1 span {
     .game-panel {
         order: 1;
         border-radius: 25px;
+    }
+
+    .story-interface {
+        padding: 16px;
+    }
+
+    .story-controls .button {
+        flex: 1 1 auto;
     }
 
     .illustration-caption {

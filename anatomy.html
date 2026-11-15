@@ -29,10 +29,19 @@
         <section class="level-hero">
             <div class="game-panel">
                 <div class="game-panel-header">
-                    <span>Level playground</span>
-                    <span class="game-status">TEST MODE</span>
+                    <span>Beach cut story</span>
+                    <span class="game-status">STORY MODE</span>
                 </div>
                 <div class="play-window" id="play-window" role="region" aria-label="Level 1 p5.js play window"></div>
+                <div class="story-interface">
+                    <p class="story-progress" id="story-progress" hidden></p>
+                    <p class="story-caption" id="story-caption" aria-live="polite" hidden></p>
+                    <div class="story-controls">
+                        <button class="button button-primary" id="start-story" type="button">Start story ✨</button>
+                        <button class="button button-secondary" id="previous-slide" type="button" hidden>Previous</button>
+                        <button class="button button-primary" id="next-slide" type="button" hidden>Next scene</button>
+                    </div>
+                </div>
             </div>
         </section>
         <nav class="level-pagination" aria-label="Level navigation">
